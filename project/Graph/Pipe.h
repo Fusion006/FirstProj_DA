@@ -8,6 +8,7 @@ private:
     Vertex* ServePointA;
     Vertex* ServePointB;
     int capacity;
+    int flow = 0;
 public:
     Pipe(Vertex* ServePointA, Vertex* ServePointB, int capacity);
 
