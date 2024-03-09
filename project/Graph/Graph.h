@@ -13,10 +13,10 @@
 
 class Graph {
 private:
-    std::map<int,City> cities;
-    std::map<int,Reservoir> reservoirs;
-    std::map<int,Station> stations;
-    std::map<std::string,int> nameToId;
+    std::map<std::string ,City*> cities;
+    std::map<std::string,Reservoir*> reservoirs;
+    std::map<std::string,Station*> stations;
+    std::map<std::string,std::string> nameToCode;
 
 public:
     Graph();
