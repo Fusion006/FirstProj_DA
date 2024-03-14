@@ -33,7 +33,7 @@ public:
     Pipe* addPipe(Vertex *dest, double capacity);
     bool removePipe(const string& code);
     void removeOutgoingPipes();
-
+    bool operator<(Vertex & vertex) const;
 protected:
     int id;
     string code;
@@ -85,7 +85,26 @@ public:
         this->municipality = std::move(municipality);
         this->capacity = capacity;
     }
-    //TODO add getters and setters
+
+    inline int getId() const {
+        return id;
+    }
+
+    inline std::string getCode() const {
+        return code;
+    }
+
+    inline std::string getName() const {
+        return name;
+    }
+
+    inline std::string getMunicipality() const {
+        return municipality;
+    }
+
+    inline int getCapacity() const {
+        return capacity;
+    }
 };
 
 /********************** Station  ****************************/
@@ -97,7 +116,15 @@ public:
         this->id = id;
         this->code = std::move(code);
     }
-    //TODO add getters and setters
+
+    inline int getId() const {
+        return id;
+    }
+
+    // Getter for code
+    inline const std::string& getCode() const {
+        return code;
+    }
 };
 
 /********************** Pipe  ****************************/
@@ -142,11 +169,11 @@ public:
      *  Adds a vertex with a given content or info (in) to a graph (this).
      *  Returns true if successful, and false if a vertex with that content already exists.
      */
-    bool addCity(int id, const std::string& code, std::string name, int demand, int population);//TODO
+    bool addCity(int id, const std::string& code, std::string name, int demand, int population);
     bool addReservoir(int id, const std::string& code, std::string name,
                       std::string municipality, int capacity);
     bool addStation(int id, const std::string& code);
-    bool removeVertex(const string &code);//TODO
+    bool removeVertex(const string &code);
 
     /*
      * Adds an edge to a graph (this), given the contents of the source and
@@ -231,9 +258,9 @@ inline void Vertex::removeOutgoingPipes() {
     }
 }
 
-/*bool Vertex<T>::operator<(Vertex<T> & vertex) const {
+bool Vertex::operator<(Vertex & vertex) const {
     return this->dist < vertex.dist;
-}*///TODO adiconar se usarmos MutablePriorityQueue
+}
 
 inline string Vertex::get_code() {
     return this->code;
@@ -601,7 +628,6 @@ inline vector<string> Graph::topsort() const{
     }
 
     if ( res.size() != vertexSet.size() ) {
-        //std::cout << "Impossible topological ordering!" << std::endl;
         res.clear();
         return res;
     }
@@ -633,27 +659,4 @@ Graph::~Graph() {
     deleteMatrix(pathMatrix, vertexSet.size());
 }
 *///TODO importante so se usarmos Floyd-Warshall
-/*
-#include <map>
-#include "Vertexes/Vertex.h"
-#include "Pipe.h"
-#include "Vertexes/City.h"
-#include "Vertexes/Reservoir.h"
-#include "Vertexes/Station.h"
-#include "fstream"
-#include "sstream"
-
-class Graph {
-private:
-    std::map<std::string ,City*> cities;
-    std::map<std::string,Reservoir*> reservoirs;
-    std::map<std::string,Station*> stations;
-    std::map<std::string,std::string> cityToCode;
-
-public:
-    Graph();
-
-};
-
-*/
 #endif
