@@ -8,4 +8,5 @@ add_executable(DAP1 main.cpp
         project/Graph/Graph.cpp
         reliability.h
         reliability.cpp
+        FlowNetwork.cpp
 )

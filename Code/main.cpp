@@ -102,6 +102,7 @@ int main() {
     read_stations(g);
     read_reservoirs(g);
     read_pipes(g);
-    std::cout << "Hello, World!" << std::endl;
+    std::cout << "Bem-vindo!" << std::endl;
+
     return 0;
 }
