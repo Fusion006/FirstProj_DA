@@ -105,6 +105,10 @@ public:
     inline int getCapacity() const {
         return capacity;
     }
+
+    inline void setCapacity(int newCapacity) {
+        this->capacity = newCapacity;
+    }
 };
 
 /********************** Station  ****************************/
@@ -186,6 +190,10 @@ public:
 
     [[nodiscard]] inline size_t getNumVertex() const;
     [[nodiscard]] inline std::vector<Vertex*> getVertexSet() const;
+    [[nodiscard]] inline std::vector<Reservoir*> getReservoirs() const;
+    [[nodiscard]] inline std::vector<City*> getCities() const;
+    [[nodiscard]] inline std::vector<Station*> getStations() const;
+
 
     [[nodiscard]] inline vector<string> dfs() const;
     [[nodiscard]] inline vector<string> dfs(const string & source) const;
@@ -197,6 +205,9 @@ public:
     [[nodiscard]] inline std::vector<string> topsort() const;
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
+    vector<Reservoir*> reservoirs;
+    vector<Station*> stations;
+    vector<City*> cities;
 
     //double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
     //int **pathMatrix = nullptr;   // path matrix for Floyd-Warshall
@@ -355,6 +366,19 @@ size_t Graph::getNumVertex() const {
 std::vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
+
+std::vector<Reservoir*> Graph::getReservoirs() const {
+    return reservoirs;
+}
+
+std::vector<City*> Graph::getCities() const {
+    return cities;
+}
+
+std::vector<Station*> Graph::getStations() const {
+    return stations;
+}
+
 /*
  * Auxiliary function to find a vertex with a given content.
  */
@@ -374,18 +398,25 @@ Vertex * Graph::findVertex(const string &code) const {
 
 inline bool Graph::addCity(int id, const std::string& code, std::string name, int demand, int population) {
     if (findVertex(code) != nullptr) return false;
-    vertexSet.push_back(new City(id,code,std::move(name),demand,population));
+    auto* newCity = new City(id,code,std::move(name),demand,population);
+    vertexSet.push_back(newCity);
+    cities.push_back(newCity);
+
     return true;
 }
 inline bool Graph::addReservoir(int id, const std::string& code, std::string name,
                   std::string municipality, int capacity){
     if (findVertex(code) != nullptr) return false;
-    vertexSet.push_back(new Reservoir(id,code,std::move(name),std::move(municipality),capacity));
+    auto* newReservoir = new Reservoir(id,code,std::move(name),std::move(municipality),capacity);
+    vertexSet.push_back(newReservoir);
+    reservoirs.push_back(newReservoir);
     return true;
 }
 inline bool Graph::addStation(int id, const std::string& code){
     if (findVertex(code) != nullptr) return false;
-    vertexSet.push_back(new Station(id,code));
+    auto* newStation = new Station(id,code);
+    vertexSet.push_back(newStation);
+    stations.push_back(newStation);
     return true;
 }
 

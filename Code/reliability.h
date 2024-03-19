@@ -9,6 +9,6 @@
 
 void remReservoirController(Graph& g);
 std::string getReservoirInput(Graph &g);
-map<string,int> removeReservoir(Graph &g, set<string>);
-
+map<string,int> removeReservoirs(Graph &g, set<string>);
+void restoreReservoir(Graph &g, map<int,string>);
 #endif

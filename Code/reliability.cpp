@@ -1,7 +1,18 @@
 #include "reliability.h"
 using namespace std;
 
-
+map<string,int> getReservoirMap(Graph &g)
+{
+    map<string,int> res;
+    vector<Vertex*> vertexSet = g.getVertexSet();
+    for(Vertex* v : vertexSet)
+    {
+        if (v->get_code()[0] == 'R')
+        {
+            //res[v->get_code()] = v->getCapacity();
+        }
+    }
+}
 
 string getReservoirInput(Graph &g)
 {
@@ -24,6 +35,7 @@ map<string,int> removeReservoir(Graph &g, set<string>)
 
 void remReservoirController(Graph& g)
 {
+    map<string,int> res_to_capacity = getReservoirMap(g);
     set<string> removed;
     map<string,int> map = removeReservoir(g,removed);
     string removedRes;
