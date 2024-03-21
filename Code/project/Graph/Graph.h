@@ -169,6 +169,8 @@ public:
     * Auxiliary function to find a vertex with a given the content.
     */
     [[nodiscard]] inline Vertex *findVertex(const string &code) const;
+    [[nodiscard]] Reservoir *findReservoir(const string &code) const;
+    [[nodiscard]] City *findCity(const string &code) const;
     /*
      *  Adds a vertex with a given content or info (in) to a graph (this).
      *  Returns true if successful, and false if a vertex with that content already exists.
@@ -215,6 +217,7 @@ protected:
 
 public:
     map<string,string> cityToCode;
+
 };
 
 //void deleteMatrix(int **m, int n);
@@ -390,11 +393,19 @@ Vertex * Graph::findVertex(const string &code) const {
     return nullptr;
 }
 
-/*
- *  Adds a vertex to a graph (this).
- *  Returns true if successful, and false if a vertex with that content already exists.
- */
+Reservoir * Graph::findReservoir(const string &code) const {
+    for (Reservoir* v : reservoirs)
+        if (v->get_code() == code)
+            return v;
+    return nullptr;
+}
 
+City * Graph::findCity(const string &code) const {
+    for (City* v : cities)
+        if (v->get_code() == code)
+            return v;
+    return nullptr;
+}
 
 inline bool Graph::addCity(int id, const std::string& code, std::string name, int demand, int population) {
     if (findVertex(code) != nullptr) return false;

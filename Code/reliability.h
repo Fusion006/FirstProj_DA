@@ -8,7 +8,8 @@
 #include <map>
 
 void remReservoirController(Graph& g);
-std::string getReservoirInput(Graph &g);
-map<string,int> removeReservoirs(Graph &g, set<string>);
-void restoreReservoir(Graph &g, map<int,string>);
+Reservoir* getReservoirInput(Graph &g);
+bool checkRelevantVertex(Graph &g, Vertex* v);
+void restoreReservoir(Graph &g, const map<string,int>& capacities);
+void printDiferences(Graph& g, const map<string,int>& start,map<string,int> end);
 #endif
