@@ -15,6 +15,12 @@ class Pipe;
 /************************* Vertex  **************************/
 class Vertex {
 public:
+
+    Vertex(int id, string code){
+        this->id = id;
+        this->code = std::move(code);
+    }
+
     [[nodiscard]] inline vector<Pipe *> getAdj() const;
     [[nodiscard]] inline bool isVisited() const;
     [[nodiscard]] inline bool isProcessing() const;
@@ -22,8 +28,8 @@ public:
     [[nodiscard]] inline double getDist() const;
     [[nodiscard]] inline Pipe* getPath() const;
     [[nodiscard]] inline vector<Pipe*> getIncoming() const;
+    [[nodiscard]] int get_id() const;
 
-    int get_id();
     string get_code();
     void setVisited(bool state);
     void setProcesssing(bool state);
@@ -58,14 +64,14 @@ private:
     int demand;
     int population;
 public:
-    City(int id, std::string code, string name, int demand, int population)
+
+    City(int id, std::string code, string name, int demand, int population) : Vertex(id, std::move(code))
     {
-        this->id=id;
-        this->code=std::move(code);
         this->name=std::move(name);
         this->demand=demand;
         this->population=population;
     }
+
     [[nodiscard]] inline string get_name() const {return this->name;}
     [[nodiscard]] inline int get_demand() const {return this->demand;}
     [[nodiscard]] inline int get_population() const { return this->population;}
@@ -78,31 +84,30 @@ private:
     std::string municipality;
     int capacity;
 public:
-    Reservoir(int id, std::string code, std::string name, std::string municipality, int capacity){
-        this->id = id;
-        this->code = std::move(code);
+
+    Reservoir(int id, std::string code, std::string name, std::string municipality, int capacity) : Vertex(id, std::move(code)){
         this->name = std::move(name);
         this->municipality = std::move(municipality);
         this->capacity = capacity;
     }
 
-    inline int getId() const {
+    [[nodiscard]] inline int getId() const {
         return id;
     }
 
-    inline std::string getCode() const {
+    [[nodiscard]] inline std::string getCode() const {
         return code;
     }
 
-    inline std::string getName() const {
+    [[nodiscard]] inline std::string getName() const {
         return name;
     }
 
-    inline std::string getMunicipality() const {
+    [[nodiscard]] inline std::string getMunicipality() const {
         return municipality;
     }
 
-    inline int getCapacity() const {
+    [[nodiscard]] inline int getCapacity() const {
         return capacity;
     }
 
@@ -116,17 +121,15 @@ class Station : public Vertex{
 private:
 
 public:
-    Station(int id, std::string code){
-        this->id = id;
-        this->code = std::move(code);
-    }
 
-    inline int getId() const {
+    Station(int id, std::string code) : Vertex(id, std::move(code)) {}
+
+    [[nodiscard]] inline int getId() const {
         return id;
     }
 
     // Getter for code
-    inline const std::string& getCode() const {
+    [[nodiscard]] inline const std::string& getCode() const {
         return code;
     }
 };
@@ -146,6 +149,8 @@ public:
     void setSelected(bool state);
     void setReverse(Pipe* reverse);
     void setFlow(double flow);
+    void setCapacity(double capacity);
+
 protected:
     Vertex* dest; // destination vertex
     double capacity; // edge weight, can also be used for capacity
@@ -169,14 +174,17 @@ public:
     * Auxiliary function to find a vertex with a given the content.
     */
     [[nodiscard]] inline Vertex *findVertex(const string &code) const;
+    [[nodiscard]] inline Reservoir *findReservoir(const string &code) const;
+    [[nodiscard]] inline City *findCity(const string &code) const;
+    [[nodiscard]] inline Pipe *findPipe(const string &source, const string &target) const;
     /*
      *  Adds a vertex with a given content or info (in) to a graph (this).
      *  Returns true if successful, and false if a vertex with that content already exists.
      */
     bool addCity(int id, const std::string& code, std::string name, int demand, int population);
-    bool addReservoir(int id, const std::string& code, std::string name,
-                      std::string municipality, int capacity);
+    bool addReservoir(int id, const std::string& code, std::string name, std::string municipality, int capacity);
     bool addStation(int id, const std::string& code);
+    bool addVertex(int id, const std::string& code);
     bool removeVertex(const string &code);
 
     /*
@@ -276,6 +284,11 @@ inline bool Vertex::operator<(Vertex & vertex) const {
 inline string Vertex::get_code() {
     return this->code;
 }
+
+inline int Vertex::get_id() const {
+    return this->id;
+}
+
 vector<Pipe*> Vertex::getAdj() const {
     return this->adj;
 }
@@ -355,6 +368,10 @@ inline void Pipe::setReverse(Pipe *reversePipe) {
 }
 inline void Pipe::setFlow(double new_flow) {
     this->flow = new_flow;
+}
+
+inline void Pipe::setCapacity(double capacity) {
+    this->capacity = capacity;
 }
 
 /********************** Graph  ****************************/
@@ -664,6 +681,40 @@ inline vector<string> Graph::topsort() const{
     }
 
     return res;
+}
+
+Reservoir *Graph::findReservoir(const string &code) const {
+    for (Reservoir* v : reservoirs)
+        if (v->get_code() == code)
+            return v;
+    return nullptr;
+}
+
+City *Graph::findCity(const string &code) const {
+    for (City* v : cities)
+        if (v->get_code() == code)
+            return v;
+    return nullptr;
+}
+
+inline bool Graph::addVertex(int id, const string &code) {
+    if(findVertex(code) != nullptr) return false;
+    auto* newVertex = new Vertex(id, code);
+    vertexSet.push_back(newVertex);
+    return true;
+}
+
+Pipe *Graph::findPipe(const string &source, const string &target) const {
+    auto vsource = findVertex(source);
+    if (vsource == nullptr) {
+        return nullptr;
+    }
+    for (auto pipe : vsource->getAdj()) {
+        if (pipe->getDest()->get_code() == target) {
+            return pipe;
+        }
+    }
+    return nullptr;
 }
 /*
 inline void deleteMatrix(int **m, int n) {

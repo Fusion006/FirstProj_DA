@@ -9,4 +9,7 @@ add_executable(DAP1 main.cpp
         reliability.h
         reliability.cpp
         FlowNetwork.cpp
+        FlowNetwork.h
+        maxflow.h
+        maxflow.cpp
 )
