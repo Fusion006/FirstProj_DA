@@ -223,6 +223,7 @@ protected:
 
 public:
     map<string,string> cityToCode;
+
 };
 
 //void deleteMatrix(int **m, int n);
@@ -407,11 +408,19 @@ Vertex * Graph::findVertex(const string &code) const {
     return nullptr;
 }
 
-/*
- *  Adds a vertex to a graph (this).
- *  Returns true if successful, and false if a vertex with that content already exists.
- */
+Reservoir * Graph::findReservoir(const string &code) const {
+    for (Reservoir* v : reservoirs)
+        if (v->get_code() == code)
+            return v;
+    return nullptr;
+}
 
+City * Graph::findCity(const string &code) const {
+    for (City* v : cities)
+        if (v->get_code() == code)
+            return v;
+    return nullptr;
+}
 
 inline bool Graph::addCity(int id, const std::string& code, std::string name, int demand, int population) {
     if (findVertex(code) != nullptr) return false;
@@ -681,20 +690,6 @@ inline vector<string> Graph::topsort() const{
     }
 
     return res;
-}
-
-Reservoir *Graph::findReservoir(const string &code) const {
-    for (Reservoir* v : reservoirs)
-        if (v->get_code() == code)
-            return v;
-    return nullptr;
-}
-
-City *Graph::findCity(const string &code) const {
-    for (City* v : cities)
-        if (v->get_code() == code)
-            return v;
-    return nullptr;
 }
 
 inline bool Graph::addVertex(int id, const string &code) {
