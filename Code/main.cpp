@@ -1,5 +1,6 @@
 #include <iostream>
 #include "project/Graph/Graph.h"
+#include "FlowNetwork.h"
 
 using namespace std;
 
@@ -103,6 +104,10 @@ int main() {
     read_reservoirs(g);
     read_pipes(g);
     std::cout << "Bem-vindo!" << std::endl;
+
+    FlowNetworkEvaluation(g);
+    vector<pair<City*, double>> cities = getCitiesInDeficit(g);
+    PrintResults(cities);
 
     return 0;
 }

@@ -90,7 +90,7 @@ void edmondsKarp(Graph &g, string &source, string &target){
     }
     for(Vertex* v : g1.getVertexSet()){
         for(Pipe* pp : v->getAdj()){
-            if(pp->getReverse() != nullptr){
+            if(pp->getReverse() != nullptr && pp->isSelected()){
                 pp->setCapacity(pp->getCapacity() + pp->getReverse()->getCapacity());
                 pp->setReverse(nullptr);
                 pp->getDest()->removePipe(pp->getOrig()->get_code());
