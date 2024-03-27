@@ -48,7 +48,7 @@ protected:
 // auxiliary fields
     bool visited = false;
     bool processing = false;
-    unsigned int indegree;
+    unsigned int indegree = 0;
     double dist = 0;
     Pipe *path = nullptr;
 
@@ -111,7 +111,7 @@ public:
         return capacity;
     }
 
-    inline void setCapacity(int newCapacity) {
+    inline void setCapacity(double newCapacity) {
         this->capacity = newCapacity;
     }
 };
@@ -241,6 +241,7 @@ inline Pipe* Vertex::addPipe(Vertex *dest, double capacity) {
     auto newPipe = new Pipe(this, dest, capacity);
     adj.push_back(newPipe);
     dest->incoming.push_back(newPipe);
+    dest->setIndegree(dest->getIndegree()+1);
     return newPipe;
 }
 /*
