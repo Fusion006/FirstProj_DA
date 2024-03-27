@@ -38,11 +38,11 @@ void printDiferences(Graph& g, vector<pair<City*, double>> start,vector<pair<Cit
         if (newDeficit > oldDeficit )
         {
             City* city = cityDeficit.first;
-            cout << city->get_name() << " demand not met by: " << newDeficit << " m³\n";
+            cout << city->get_name() << " demand not met by: " << newDeficit << "\n";
             totalDif += newDeficit-oldDeficit;
         }
     }
-    cout<<"The removal of this reservoir caused an additional deficit of " << totalDif << "m³\n";
+    cout<<"The removal of this reservoir caused an additional deficit of " << totalDif << "\n";
 }
 
 Reservoir* getReservoirInput(Graph &g)
@@ -103,7 +103,7 @@ void remReservoirController(Graph& g)
     map<string,int> initial_res_to_capacity = getReservoirMap(g);
 
     FlowNetworkEvaluation(g);
-    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO rever maxFlow algorithm;
+    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO review maxFlow algorithm;
 
     Reservoir* reservoir;
     bool finished = false;
@@ -125,7 +125,7 @@ void remReservoirController(Graph& g)
             previous_city_in_deficit = new_city_in_deficit;
             cout<<"Do you want to remove another reservoir?[Y/n]:";
             cin>>option;
-            if (option == "Y") finished = true;
+            if (option != "Y") finished = true;
         }
     }
     restoreReservoir(g,initial_res_to_capacity);
