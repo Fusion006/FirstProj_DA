@@ -82,7 +82,7 @@ class Reservoir : public Vertex{
 private:
     std::string name;
     std::string municipality;
-    int capacity;
+    double capacity;
 public:
 
     Reservoir(int id, std::string code, std::string name, std::string municipality, int capacity) : Vertex(id, std::move(code)){
@@ -107,7 +107,7 @@ public:
         return municipality;
     }
 
-    [[nodiscard]] inline int getCapacity() const {
+    [[nodiscard]] inline double getCapacity() const {
         return capacity;
     }
 
@@ -192,9 +192,9 @@ public:
      * destination vertices and the edge weight (w).
      * Returns true if successful, and false if the source or destination vertex does not exist.
      */
-    bool addPipe(const string &sourceCode, const string &destCode, double cap);
-    bool removePipe(const string &sourceCode, const string &destCode);
-    bool addBidirectionalPipe(const string &sourceCode, const string &destCode, double cap);
+    bool addPipe(const string &sourceCode, const string &destCode, double cap) const;
+    bool removePipe(const string &sourceCode, const string &destCode) const;
+    bool addBidirectionalPipe(const string &sourceCode, const string &destCode, double cap) const;
 
     [[nodiscard]] inline size_t getNumVertex() const;
     [[nodiscard]] inline std::vector<Vertex*> getVertexSet() const;
@@ -372,8 +372,8 @@ inline void Pipe::setFlow(double new_flow) {
     this->flow = new_flow;
 }
 
-inline void Pipe::setCapacity(double capacity) {
-    this->capacity = capacity;
+inline void Pipe::setCapacity(double newCapacity) {
+    this->capacity = newCapacity;
 }
 
 /********************** Graph  ****************************/
@@ -474,7 +474,7 @@ inline bool Graph::removeVertex(const string &code) {
  * destination vertices and the edge capacity.
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
-inline bool Graph::addPipe(const std::string &sourceCode, const std::string &destCode, double cap) {
+inline bool Graph::addPipe(const std::string &sourceCode, const std::string &destCode, double cap) const {
     auto v1 = findVertex(sourceCode);
     auto v2 = findVertex(destCode);
     if (v1 == nullptr || v2 == nullptr)
@@ -488,7 +488,7 @@ inline bool Graph::addPipe(const std::string &sourceCode, const std::string &des
  * The edge is identified by the source (sourc) and destination (dest) contents.
  * Returns true if successful, and false if such edge does not exist.
  */
-inline bool Graph::removePipe(const std::string &sourceCode, const std::string &destCode) {
+inline bool Graph::removePipe(const std::string &sourceCode, const std::string &destCode) const {
     Vertex * srcVertex = findVertex(sourceCode);
     if (srcVertex == nullptr) {
         return false;
@@ -497,7 +497,7 @@ inline bool Graph::removePipe(const std::string &sourceCode, const std::string &
 }
 
 
-inline bool Graph::addBidirectionalPipe(const std::string &sourceCode, const std::string &destCode, double cap) {
+inline bool Graph::addBidirectionalPipe(const std::string &sourceCode, const std::string &destCode, double cap) const {
     auto v1 = findVertex(sourceCode);
     auto v2 = findVertex(destCode);
     if (v1 == nullptr || v2 == nullptr)
