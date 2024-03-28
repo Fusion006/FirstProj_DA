@@ -22,6 +22,7 @@ public:
     }
 
     [[nodiscard]] inline vector<Pipe *> getAdj() const;
+    void inline setAdj(vector<Pipe*> newAdj);
     [[nodiscard]] inline bool isVisited() const;
     [[nodiscard]] inline bool isProcessing() const;
     [[nodiscard]] inline unsigned int getIndegree() const;
@@ -175,6 +176,7 @@ public:
     */
     [[nodiscard]] inline Vertex *findVertex(const string &code) const;
     [[nodiscard]] inline Reservoir *findReservoir(const string &code) const;
+    [[nodiscard]] inline Station *findStation(const string &code) const;
     [[nodiscard]] inline City *findCity(const string &code) const;
     [[nodiscard]] inline Pipe *findPipe(const string &source, const string &target) const;
     /*
@@ -192,9 +194,9 @@ public:
      * destination vertices and the edge weight (w).
      * Returns true if successful, and false if the source or destination vertex does not exist.
      */
-    bool addPipe(const string &sourceCode, const string &destCode, double cap) const;
-    bool removePipe(const string &sourceCode, const string &destCode) const;
-    bool addBidirectionalPipe(const string &sourceCode, const string &destCode, double cap) const;
+    [[nodiscard]] bool addPipe(const string &sourceCode, const string &destCode, double cap) const;
+    [[nodiscard]] bool removePipe(const string &sourceCode, const string &destCode) const;
+    [[nodiscard]] bool addBidirectionalPipe(const string &sourceCode, const string &destCode, double cap) const;
 
     [[nodiscard]] inline size_t getNumVertex() const;
     [[nodiscard]] inline std::vector<Vertex*> getVertexSet() const;
@@ -293,6 +295,9 @@ inline int Vertex::get_id() const {
 
 vector<Pipe*> Vertex::getAdj() const {
     return this->adj;
+}
+void Vertex::setAdj(vector<Pipe*> newAdj) {
+    this->adj = std::move(newAdj);
 }
 bool Vertex::isVisited() const {
     return this->visited;
@@ -411,6 +416,13 @@ Vertex * Graph::findVertex(const string &code) const {
 
 Reservoir * Graph::findReservoir(const string &code) const {
     for (Reservoir* v : reservoirs)
+        if (v->get_code() == code)
+            return v;
+    return nullptr;
+}
+
+Station * Graph::findStation(const string &code) const {
+    for (Station* v : stations)
         if (v->get_code() == code)
             return v;
     return nullptr;
