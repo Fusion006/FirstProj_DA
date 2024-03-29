@@ -6,7 +6,7 @@
 #include <set>
 #include <string>
 #include <map>
-double getCityDeficit(string cityName, const vector<pair<City*, double>>& cityToDeficit);
+double getCityDeficit(const string& cityName, const vector<pair<City*, double>>& cityToDeficit);
 map<string,double> getReservoirMap(Graph &g);
 
 void remReservoir(Graph& g);

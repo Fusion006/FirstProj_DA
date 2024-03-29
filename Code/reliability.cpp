@@ -3,7 +3,7 @@
 
 using namespace std;
 
-double getCityDeficit(string cityName, const vector<pair<City*, double>>& cityToDeficit)
+double getCityDeficit(const string& cityName, const vector<pair<City*, double>>& cityToDeficit)
 {
     for(pair<City*, double> pair : cityToDeficit)
     {
@@ -155,10 +155,9 @@ void restoreStations(Graph& g, const map<pair<string,string>,double>& stationsPi
 void remStation(Graph& g)
 {
     map<pair<string,string>,double> stationsPipes;
-
     FlowNetworkEvaluation(g);
-    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO review maxFlow algorithm;
 
+    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO review maxFlow algorithm;
     Station* station;
     bool finished = false;
     string option;

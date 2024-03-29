@@ -380,8 +380,6 @@ inline void Pipe::setFlow(double new_flow) {
 
 inline void Pipe::setCapacity(double newCapacity) {
     this->capacity = newCapacity;
-    if (this->reverse != nullptr)
-        this->reverse->capacity = newCapacity;
 }
 
 /********************** Graph  ****************************/
