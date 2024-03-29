@@ -7,7 +7,7 @@ double getCityDeficit(const string& cityName, const vector<pair<City*, double>>&
 {
     for(pair<City*, double> pair : cityToDeficit)
     {
-        if (cityName == pair.first->get_name())
+        if (cityName == pair.first->get_code())
         {
             return pair.second;
         }
@@ -30,7 +30,7 @@ void printDiferences( const vector<pair<City*, double>>& start, const vector<pai
     cout<<"Flow Decreased in this cities:\n";
     for (pair<City*, double> cityDeficit : end)
     {
-        double oldDeficit = getCityDeficit(cityDeficit.first->get_name(),start);
+        double oldDeficit = getCityDeficit(cityDeficit.first->get_code(),start);
         double newDeficit = cityDeficit.second;
 
         if (newDeficit > oldDeficit )
@@ -190,4 +190,63 @@ void remStation(Graph& g)
         }
     }
     restoreStations(g, stationsPipes);
+}
+
+
+bool deficitIncrised(const vector<pair<City*, double>>& start, const vector<pair<City*, double>>& end)
+{
+    if (start.size() != end.size()) return true;
+    for (pair<City*, double> preciousDeficit : start)
+    {
+        double newDeficit;
+        for (pair<City*, double> endDeficit : end)
+        {
+            double oldDeficit = getCityDeficit(endDeficit.first->get_code() ,start);
+            newDeficit = endDeficit.second;
+            if (newDeficit > oldDeficit)
+            {
+                return true;
+            }
+        }
+
+    }
+    return false;
+}
+void printIrrelevantStations(const set<string>& stations)
+{
+    cout<<"There are "<<stations.size()<<" irrelevant stations:\n";
+    for (const string& station : stations)
+    {
+        cout << station << '\t';
+    }
+}
+bool isStationIrrelevant(Graph& g, Station* station)
+{
+    map<pair<string,string>,double> stationsPipes;
+    FlowNetworkEvaluation(g);
+    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);
+
+    for (Pipe* pipe : station->getAdj())
+    {
+        stationsPipes[{station->getCode(),pipe->getDest()->get_code()}] = pipe->getCapacity();
+        pipe->setCapacity(0);
+    }
+    FlowNetworkEvaluation(g);
+    vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
+
+    restoreStations(g,stationsPipes);
+    if (deficitIncrised(previous_city_in_deficit, new_city_in_deficit)) return false;
+    return true;
+}
+void findIrrelevantStations(Graph& g)
+{
+    set<string> res;
+    for (Station* station : g.getStations())
+    {
+        if (isStationIrrelevant(g,station))
+        {
+            res.insert(station->getCode());
+        }
+    }
+    printIrrelevantStations(res);
 }

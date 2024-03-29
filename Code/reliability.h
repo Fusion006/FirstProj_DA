@@ -18,4 +18,10 @@ void printDiferences(const map<string,int>& start,map<string,int> end);
 void remStation(Graph& g);
 void restoreStations(Graph& g, const map<string,vector<Pipe*>>& stationsPipes);
 Station* getStationInput(Graph &g);
+
+
+void findIrrelevantStations(Graph& g);
+bool isStationIrrelevant(Graph& g, Station* station);
+bool deficitIncrised(const vector<pair<City*, double>>& start, const vector<pair<City*, double>>& end);
+void printIrrelevantStations(const set<string>& stations);
 #endif

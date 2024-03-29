@@ -7,7 +7,7 @@ using namespace std;
 
 void read_cities (Graph &graph)
 {
-    ifstream ifile("../project/Graph/DataSet/simple/Cities.csv");
+    ifstream ifile("../project/Graph/DataSet/Cities.csv");
     string line;
     string singleElement;
     if (ifile.is_open())
@@ -31,7 +31,7 @@ void read_cities (Graph &graph)
 }
 void read_reservoirs (Graph &graph)
 {
-    ifstream ifile("../project/Graph/DataSet/simple/Reservoir.csv");
+    ifstream ifile("../project/Graph/DataSet/Reservoir.csv");
     string line;
     if (ifile.is_open())
     {
@@ -53,7 +53,7 @@ void read_reservoirs (Graph &graph)
 }
 void read_stations (Graph &graph)
 {
-    ifstream ifile("../project/Graph/DataSet/simple/Stations.csv");
+    ifstream ifile("../project/Graph/DataSet/Stations.csv");
     string line;
     if (ifile.is_open())
     {
@@ -72,7 +72,7 @@ void read_stations (Graph &graph)
 }
 void read_pipes(Graph &graph)
 {
-    ifstream ifile("../project/Graph/DataSet/simple/Pipes.csv");
+    ifstream ifile("../project/Graph/DataSet/Pipes.csv");
     string line;
     if (ifile.is_open())
     {
@@ -108,11 +108,9 @@ int main() {
     read_pipes(g);
     std::cout << "Bem-vindo!" << std::endl;
 
-    //FlowNetworkEvaluation(g);
-    //vector<pair<City*, double>> cities = getCitiesInDeficit(g);
-    //PrintResults(cities);
-    remStation(g);
-    remStation(g);
+    FlowNetworkEvaluation(g);
+    vector<pair<City*, double>> cities = getCitiesInDeficit(g);
+    PrintResults(cities);
 
     return 0;
 }
