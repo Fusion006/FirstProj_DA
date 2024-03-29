@@ -24,7 +24,7 @@ map<string,double> getReservoirMap(Graph &g)
     }
     return res;
 }
-void printDiferences(Graph& g, const vector<pair<City*, double>>& start,const vector<pair<City*, double>>& end)
+void printDiferences( const vector<pair<City*, double>>& start, const vector<pair<City*, double>>& end)
 {
     double totalDif = 0;
     cout<<"Flow Decreased in this cities:\n";
@@ -116,7 +116,7 @@ void remReservoir(Graph& g)
             FlowNetworkEvaluation(g);
             vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
 
-            printDiferences(g, previous_city_in_deficit, new_city_in_deficit);
+            printDiferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
             cout<<"Do you want to remove another reservoir?[Y/n]:";
             cin>>option;
@@ -181,7 +181,7 @@ void remStation(Graph& g)
             FlowNetworkEvaluation(g);
             vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
 
-            printDiferences(g, previous_city_in_deficit, new_city_in_deficit);
+            printDiferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
             cout<<"Do you want to remove another station?[Y/n]:";
             cin>>option;
