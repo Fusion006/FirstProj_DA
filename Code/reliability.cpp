@@ -250,3 +250,62 @@ void findIrrelevantStations(Graph& g)
     }
     printIrrelevantStations(res);
 }
+
+
+void restorePipes(Graph &g, const map<pair<string,string>,double>& capacities)
+{
+    for(pair<pair<string,string>,double> pipeInfo : capacities)
+    {
+        Pipe* pipe = g.findPipe(pipeInfo.first.first,pipeInfo.first.second);
+        if (pipe != nullptr)
+            pipe->setCapacity(pipeInfo.second);
+    }
+}
+Pipe* getPipeInput(Graph& g)
+{
+    string origin,dest;
+    Pipe* removed = nullptr;
+    while (removed == nullptr) {
+        std::cout << "Pipe origin to be removed:";
+        cin >> origin;
+        std::cout << "Pipe destination to be removed:";
+        cin >> dest;
+        removed = g.findPipe(origin,dest);
+        if (removed == nullptr){
+            cout << "No pipe conects those nodes\n";
+        }
+    }
+    return removed;
+}
+void remPipe(Graph& g)
+{
+    map<pair<string,string>,double> pipesCapacities;
+    FlowNetworkEvaluation(g);
+
+    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO review maxFlow algorithm;
+    Pipe* pipe;
+    bool finished = false;
+    string option;
+
+    while(!finished)
+    {
+        pipe = getPipeInput(g);
+
+        if (pipe->getFlow()==0){
+            cout<<"That Pipe removal doesn't affect performance\n";
+        }else{
+            pipesCapacities[{pipe->getOrig()->get_code(),pipe->getDest()->get_code()}] = pipe->getCapacity();
+            pipe->setCapacity(0);
+
+            FlowNetworkEvaluation(g);
+            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
+
+            printDiferences(previous_city_in_deficit, new_city_in_deficit);
+            previous_city_in_deficit = new_city_in_deficit;
+            cout<<"Do you want to remove another pipe?[Y/n]:";
+            cin>>option;
+            if (option != "Y") finished = true;
+        }
+    }
+    restoreStations(g, pipesCapacities);
+}
