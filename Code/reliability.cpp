@@ -114,7 +114,7 @@ void remReservoir(Graph& g)
             remReservoirs++;
 
             FlowNetworkEvaluation(g);
-            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
+            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);
 
             printDiferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
@@ -157,7 +157,7 @@ void remStation(Graph& g)
     map<pair<string,string>,double> stationsPipes;
     FlowNetworkEvaluation(g);
 
-    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO review maxFlow algorithm;
+    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);
     Station* station;
     bool finished = false;
     string option;
@@ -179,7 +179,7 @@ void remStation(Graph& g)
 
             remStations++;
             FlowNetworkEvaluation(g);
-            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
+            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);
 
             printDiferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
@@ -232,7 +232,7 @@ bool isStationIrrelevant(Graph& g, Station* station)
         pipe->setCapacity(0);
     }
     FlowNetworkEvaluation(g);
-    vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
+    vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);
 
     restoreStations(g,stationsPipes);
     if (deficitIncrised(previous_city_in_deficit, new_city_in_deficit)) return false;
@@ -282,7 +282,7 @@ void remPipe(Graph& g)
     map<pair<string,string>,double> pipesCapacities;
     FlowNetworkEvaluation(g);
 
-    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO review maxFlow algorithm;
+    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);
     Pipe* pipe;
     bool finished = false;
     string option;
@@ -298,7 +298,7 @@ void remPipe(Graph& g)
             pipe->setCapacity(0);
 
             FlowNetworkEvaluation(g);
-            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
+            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);
 
             printDiferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
