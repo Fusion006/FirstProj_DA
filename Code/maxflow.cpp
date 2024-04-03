@@ -3,7 +3,7 @@
 using namespace std;
 
 
-bool shortestPath(Graph &g, string &source, string &target, vector<string> *v){
+bool shortestPath(Graph &g, string &source, string &target, vector<string> *v) {
     v->clear();
     auto s = g.findVertex(source);
     auto t = g.findVertex(target);
@@ -38,7 +38,7 @@ bool shortestPath(Graph &g, string &source, string &target, vector<string> *v){
     return true;
 }
 
-void edmondsKarp(Graph &g, string &source, string &target){
+void edmondsKarp(Graph &g, string &source, string &target) {
     for(Vertex* v : g.getVertexSet()){
         for(Pipe* pp : v->getAdj()){
             pp->setSelected(true);

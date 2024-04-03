@@ -12,4 +12,6 @@ add_executable(DAP1 main.cpp
         FlowNetwork.h
         maxflow.h
         maxflow.cpp
+        rebalance.h
+        rebalance.cpp
 )
