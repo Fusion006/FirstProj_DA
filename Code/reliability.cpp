@@ -222,10 +222,12 @@ void printIrrelevantStations(const set<string>& stations)
 }
 bool isStationIrrelevant(Graph& g, Station* station)
 {
-    map<pair<string,string>,double> stationsPipes;
     FlowNetworkEvaluation(g);
+    if (! checkRelevantVertex(g,station)) return false;
     vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);
 
+
+    map<pair<string,string>,double> stationsPipes;
     for (Pipe* pipe : station->getAdj())
     {
         stationsPipes[{station->getCode(),pipe->getDest()->get_code()}] = pipe->getCapacity();
