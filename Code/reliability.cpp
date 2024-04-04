@@ -3,7 +3,7 @@
 
 using namespace std;
 
-double getCityDeficit(string cityName, vector<pair<City*, double>> cityToDeficit)
+double getCityDeficit(const string& cityName, const vector<pair<City*, double>>& cityToDeficit)
 {
     for(pair<City*, double> pair : cityToDeficit)
     {
@@ -14,7 +14,6 @@ double getCityDeficit(string cityName, vector<pair<City*, double>> cityToDeficit
     }
     return 0;
 }
-
 map<string,double> getReservoirMap(Graph &g)
 {
     map<string,double> res;
@@ -25,8 +24,7 @@ map<string,double> getReservoirMap(Graph &g)
     }
     return res;
 }
-
-void printDiferences(Graph& g, const vector<pair<City*, double>>& start,const vector<pair<City*, double>>& end)
+void printDiferences( const vector<pair<City*, double>>& start, const vector<pair<City*, double>>& end)
 {
     double totalDif = 0;
     cout<<"Flow Decreased in this cities:\n";
@@ -44,7 +42,6 @@ void printDiferences(Graph& g, const vector<pair<City*, double>>& start,const ve
     }
     cout<<"The removal of this reservoir caused an additional deficit of " << totalDif << "\n";
 }
-
 Reservoir* getReservoirInput(Graph &g)
 {
     string code;
@@ -60,7 +57,6 @@ Reservoir* getReservoirInput(Graph &g)
     }
     return removed;
 }
-
 bool checkRelevantVertex(Graph &g, Vertex* v)
 {
     for(Vertex* vertex : g.getVertexSet())
@@ -85,9 +81,6 @@ bool checkRelevantVertex(Graph &g, Vertex* v)
     }
     return false;
 }
-
-
-
 void restoreReservoir(Graph &g,  map<string,double>& capacities)
 {
     vector<Reservoir*> reservoirs = g.getReservoirs();
@@ -96,8 +89,7 @@ void restoreReservoir(Graph &g,  map<string,double>& capacities)
         v->setCapacity(capacities.at(v->get_code()));
     }
 }
-
-void remReservoirController(Graph& g)
+void remReservoir(Graph& g)
 {
     //TODO change GET_Reservoir/cities functions
     map<string,double> initial_res_to_capacity = getReservoirMap(g);
@@ -124,7 +116,7 @@ void remReservoirController(Graph& g)
             FlowNetworkEvaluation(g);
             vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
 
-            printDiferences(g, previous_city_in_deficit, new_city_in_deficit);
+            printDiferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
             cout<<"Do you want to remove another reservoir?[Y/n]:";
             cin>>option;
@@ -133,4 +125,69 @@ void remReservoirController(Graph& g)
     }
     if (maxReservoirs==remReservoirs) cout<<"All reservoirs were removed\n";
     restoreReservoir(g,initial_res_to_capacity);
+}
+
+
+Station* getStationInput(Graph &g)
+{
+    string code;
+    Station* removed;
+    while (code.empty()) {
+        std::cout << "Station code to be removed:";
+        cin >> code;
+        removed = g.findStation(code);
+        if (removed == nullptr){
+            cout << "No station with that code\n";
+            code = "";
+        }
+    }
+    return removed;
+}
+void restoreStations(Graph& g, const map<pair<string,string>,double>& stationsPipes)
+{
+    for(pair<pair<string,string>,double> p : stationsPipes)
+    {
+        string source = p.first.first;
+        string target = p.first.second;
+        g.findPipe(source,target)->setCapacity(p.second);
+    }
+}
+void remStation(Graph& g)
+{
+    map<pair<string,string>,double> stationsPipes;
+    FlowNetworkEvaluation(g);
+
+    vector<pair<City*, double>> previous_city_in_deficit = getCitiesInDeficit(g);//TODO review maxFlow algorithm;
+    Station* station;
+    bool finished = false;
+    string option;
+    size_t remStations = 0;
+    size_t maxStations = g.getStations().size();
+
+    while(!finished && remStations != maxStations)
+    {
+        station = getStationInput(g);
+
+        if (!checkRelevantVertex(g,station)){
+            cout<<"That Station removal doesn't affect performance\n";
+        }else{
+            for (Pipe* pipe : station->getAdj())
+            {
+                stationsPipes[{station->getCode(),pipe->getDest()->get_code()}] = pipe->getCapacity();
+                pipe->setCapacity(0);
+            }
+
+            remStations++;
+            FlowNetworkEvaluation(g);
+            vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);//TODO = maxFow()
+
+            printDiferences(previous_city_in_deficit, new_city_in_deficit);
+            previous_city_in_deficit = new_city_in_deficit;
+            cout<<"Do you want to remove another station?[Y/n]:";
+            cin>>option;
+            if (option != "Y") finished = true;
+            if (maxStations==remStations) cout<<"All stations were removed\n";
+        }
+    }
+    restoreStations(g, stationsPipes);
 }
