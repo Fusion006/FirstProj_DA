@@ -10,10 +10,11 @@ using namespace std;
 /**
  *
  * @param graph
+ * @param cities
  */
-void read_cities (Graph &graph)
+void read_cities (Graph &graph, string& cities)
 {
-    ifstream ifile("../project/Graph/DataSet/Cities.csv");
+    ifstream ifile(cities);
     string line;
     string singleElement;
     if (ifile.is_open())
@@ -38,10 +39,11 @@ void read_cities (Graph &graph)
 /**
  *
  * @param graph
+ * @param reservoirs
  */
-void read_reservoirs (Graph &graph)
+void read_reservoirs (Graph &graph, string& reservoirs)
 {
-    ifstream ifile("../project/Graph/DataSet/Reservoir.csv");
+    ifstream ifile(reservoirs);
     string line;
     if (ifile.is_open())
     {
@@ -64,10 +66,11 @@ void read_reservoirs (Graph &graph)
 /**
  *
  * @param graph
+ * @param stations
  */
-void read_stations (Graph &graph)
+void read_stations (Graph &graph, string& stations)
 {
-    ifstream ifile("../project/Graph/DataSet/Stations.csv");
+    ifstream ifile(stations);
     string line;
     if (ifile.is_open())
     {
@@ -87,10 +90,11 @@ void read_stations (Graph &graph)
 /**
  *
  * @param graph
+ * @param pipes
  */
-void read_pipes(Graph &graph)
+void read_pipes(Graph &graph, string& pipes)
 {
-    ifstream ifile("../project/Graph/DataSet/Pipes.csv");
+    ifstream ifile(pipes);
     string line;
     if (ifile.is_open())
     {
@@ -172,11 +176,25 @@ void run(Graph& graph) {
 
 int main() {
     Graph g;
-    read_cities(g);
-    read_stations(g);
-    read_reservoirs(g);
-    read_pipes(g);
+    string filePath;
     std::cout << "Welcome!" << std::endl;
+
+    cout << "Please insert the path to the file that contains the Cities information:";  //  ../project/Graph/DataSet/Cities.csv
+    getline(cin >> ws, filePath);
+    read_cities(g, filePath);
+
+    cout << "Please insert the path to the file that contains the Pumping Stations information:";  //  ../project/Graph/DataSet/Stations.csv
+    getline(cin >> ws, filePath);
+    read_stations(g, filePath);
+
+    cout << "Please insert the path to the file that contains the Reservoirs information:";  //  ../project/Graph/DataSet/Reservoir.csv
+    getline(cin >> ws, filePath);
+    read_reservoirs(g, filePath);
+
+    cout << "Please insert the path to the file that contains the Pipelines information:";  //  ../project/Graph/DataSet/Pipes.csv
+    getline(cin >> ws, filePath);
+    read_pipes(g, filePath);
+
     run(g);
 
 
