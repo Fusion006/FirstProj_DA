@@ -7,11 +7,11 @@ void CreateSuperSourceSink(Graph& original) {
     original.addVertex(0, "SuperC");
 
     for (Reservoir * reservoir : original.getReservoirs()) {
-        original.addPipe("SuperR", reservoir->getCode(), reservoir->getCapacity());
+        if(original.addPipe("SuperR", reservoir->getCode(), reservoir->getCapacity())) continue;
     }
 
     for (City * city : original.getCities()) {
-        original.addPipe(city->get_code(), "SuperC", city->get_demand());
+        if(original.addPipe(city->get_code(), "SuperC", city->get_demand())) continue;
     }
 }
 
@@ -27,6 +27,10 @@ void FlowNetworkEvaluation(Graph& graph) {
     edmondsKarp(graph, source, target);
 
     DestroySuperSourceSink(graph);
+}
+
+bool sortCitiesByDeficit(const pair<City*, double>& p1, const pair<City*, double>& p2) {
+    return p1.second > p2.second || (p1.second == p2.second && p1.first->get_code() > p2.first->get_code());
 }
 
 vector<pair<City*, double>> getCitiesInDeficit(Graph& graph) {
@@ -45,7 +49,15 @@ vector<pair<City*, double>> getCitiesInDeficit(Graph& graph) {
 }
 
 void PrintResults(vector<pair<City*, double>>& citiesInDeficit) {
+    if (citiesInDeficit.empty()) {
+        cout << "All the cities are satisfied!!" << endl;
+        return;
+    }
+
+    cout << "The following cities (city name, city code, deficit value) are not satisfied:" << endl;
+
+    std::sort(citiesInDeficit.begin(), citiesInDeficit.end(), sortCitiesByDeficit);
     for (auto pair : citiesInDeficit) {
-        cout << pair.first->get_name() << "   " << pair.first->get_code() << "   " << pair.second << endl;
+        cout << "Name: " << pair.first->get_name() << " Code: " << pair.first->get_code() << " Water deficit: " << pair.second << endl;
     }
 }

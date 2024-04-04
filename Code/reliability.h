@@ -136,7 +136,7 @@ Pipe* getPipeInput(Graph& g);
 /**
  * @brief Restores the system Pipes to their original capacities
  * @param g Graph that represents the pumping system
- * @param capacities A map of the systems souce and destinations vertex codes to their capacities
+ * @param capacities A map of the systems source and destinations vertex codes to their capacities
  * Complexity O(V * lon(V))
  */
 void restorePipes(Graph &g, const map<pair<string,string>,double>& capacities);

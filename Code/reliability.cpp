@@ -27,7 +27,7 @@ map<string,double> getReservoirMap(Graph &g)
 void printDifferences( const vector<pair<City*, double>>& start, const vector<pair<City*, double>>& end)
 {
     double totalDif = 0;
-    cout<<"Flow Decreased in this cities:\n";
+    cout<<"Flow decreased in these cities:\n";
     for (pair<City*, double> cityDeficit : end)
     {
         double oldDeficit = getCityDeficit(cityDeficit.first->get_code(),start);
@@ -48,7 +48,7 @@ Reservoir* getReservoirInput(Graph &g)
     Reservoir* removed;
     while (code.empty()) {
         std::cout << "Reservoir code to be removed:";
-        cin >> code;
+        getline(cin >> ws, code);
         removed = g.findReservoir(code);
         if (removed == nullptr){
             cout << "No Reservoir with that code\n";
@@ -119,8 +119,8 @@ void remReservoir(Graph& g)
             printDifferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
             cout<<"Do you want to remove another reservoir?[Y/n]:";
-            cin>>option;
-            if (option != "Y") finished = true;
+            getline(cin >> ws, option);
+            if (option != "Y" && option != "y") finished = true;
         }
     }
     if (maxReservoirs==remReservoirs) cout<<"All reservoirs were removed\n";
@@ -134,7 +134,7 @@ Station* getStationInput(Graph &g)
     Station* removed;
     while (code.empty()) {
         std::cout << "Station code to be removed:";
-        cin >> code;
+        getline(cin >> ws, code);
         removed = g.findStation(code);
         if (removed == nullptr){
             cout << "No station with that code\n";
@@ -175,8 +175,8 @@ void remStation(Graph& g)
             printDifferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
             cout<<"Do you want to remove another station?[Y/n]:";
-            cin>>option;
-            if (option != "Y") finished = true;
+            getline(cin >> ws, option);
+            if (option != "Y" && option != "y") finished = true;
             if (maxStations==remStations) cout<<"All stations were removed\n";
         }
     }
@@ -256,9 +256,9 @@ Pipe* getPipeInput(Graph& g)
     Pipe* removed = nullptr;
     while (removed == nullptr) {
         std::cout << "Pipe origin to be removed:";
-        cin >> origin;
+        getline(cin >> ws, origin);
         std::cout << "Pipe destination to be removed:";
-        cin >> dest;
+        getline(cin >> ws, dest);
         removed = g.findPipe(origin,dest);
         if (removed == nullptr){
             cout << "No pipe conects those nodes\n";
@@ -292,8 +292,8 @@ void remPipe(Graph& g)
             printDifferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
             cout<<"Do you want to remove another pipe?[Y/n]:";
-            cin>>option;
-            if (option != "Y") finished = true;
+            getline(cin >> ws, option);
+            if (option != "Y" && option != "y") finished = true;
         }
     }
     restorePipes(g, pipesCapacities);

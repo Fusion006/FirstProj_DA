@@ -64,10 +64,10 @@ void FlowBalance(Graph& graph) {
         oldNumber = numberOfUnusedPipes;
         numberOfUnusedPipes = getNumberOfUnusedPipes(graph);
         if (numberOfUnusedPipes == 0 || numberOfUnusedPipes >= oldNumber) {
-            cout << "Nao e possivel balanciar mais o fluxo de agua!" << endl;
+            cout << "It is no longer possible to balance the water flow!" << endl;
             break;
         }
-        cout << "Foi possivel balanciar o fluxo de agua, passando de " << oldNumber << " tubos nao utilizados (fluxo 0), para " << numberOfUnusedPipes << " tubos!" << endl;
+        cout << "It was possible to balance the water flow from " << oldNumber << " unused pipelines (i.e. with flow 0), to " << numberOfUnusedPipes << " pipelines!" << endl;
     }
 
     for (const auto& pair : origin) {

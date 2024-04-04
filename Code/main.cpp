@@ -6,6 +6,11 @@
 
 using namespace std;
 
+
+/**
+ *
+ * @param graph
+ */
 void read_cities (Graph &graph)
 {
     ifstream ifile("../project/Graph/DataSet/Cities.csv");
@@ -30,6 +35,10 @@ void read_cities (Graph &graph)
         }
     }
 }
+/**
+ *
+ * @param graph
+ */
 void read_reservoirs (Graph &graph)
 {
     ifstream ifile("../project/Graph/DataSet/Reservoir.csv");
@@ -52,6 +61,10 @@ void read_reservoirs (Graph &graph)
         }
     }
 }
+/**
+ *
+ * @param graph
+ */
 void read_stations (Graph &graph)
 {
     ifstream ifile("../project/Graph/DataSet/Stations.csv");
@@ -71,6 +84,10 @@ void read_stations (Graph &graph)
         }
     }
 }
+/**
+ *
+ * @param graph
+ */
 void read_pipes(Graph &graph)
 {
     ifstream ifile("../project/Graph/DataSet/Pipes.csv");
@@ -100,6 +117,58 @@ void read_pipes(Graph &graph)
         }
     }
 }
+/**
+ *
+ * @param graph
+ */
+void run(Graph& graph) {
+    string order;
+    while (true) {
+        cout << endl << "What do you wish to do?" << endl << endl <<
+             "Please insert:" << endl <<
+             "'1' to see the maximum amount of water that can reach each or a specific city;" << endl <<
+             "'2' to see if all the water reservoirs are able to supply enough water to all the cities in need;" << endl <<
+             "'3' to try to balance the flow that goes trough the network;" << endl <<
+             "'4' to to simulate the malfunctioning of one or more Reservoirs and its consequences;" << endl <<
+             "'5' to see see what would happen if one or more Pumping Stations are removed;" << endl <<
+             "'6' to find out if one or more Pipelines are crucial to the good functioning of the water delivery;" << endl <<
+             "'close' to exit the program." << endl;
+        getline(cin >> ws, order);
+
+        if (order == "close") {
+            cout << "Closing now..." << endl;
+            return;
+        }
+
+        else if (order == "1") {
+            //TODO
+        }
+
+        else if (order == "2") {
+            FlowNetworkEvaluation(graph);
+            auto vec = getCitiesInDeficit(graph);
+            PrintResults(vec);
+        }
+
+        else if (order == "3") {
+            FlowBalance(graph);
+        }
+
+        else if (order == "4") {
+            remReservoir(graph);
+        }
+
+        else if (order == "5") {
+            remStation(graph);
+        }
+
+        else if (order == "6") {
+            remPipe(graph);
+        }
+
+        else cout << "Insert a valid number!" << endl;
+    }
+}
 
 int main() {
     Graph g;
@@ -107,11 +176,9 @@ int main() {
     read_stations(g);
     read_reservoirs(g);
     read_pipes(g);
-    std::cout << "Bem-vindo!" << std::endl;
+    std::cout << "Welcome!" << std::endl;
+    run(g);
 
-    //FlowNetworkEvaluation(g);
-    //vector<pair<City*, double>> cities = getCitiesInDeficit(g);
-    //PrintResults(cities);
 
     return 0;
 }
