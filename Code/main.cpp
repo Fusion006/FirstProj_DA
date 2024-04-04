@@ -1,6 +1,7 @@
 #include <iostream>
 #include "project/Graph/Graph.h"
 #include "FlowNetwork.h"
+#include "rebalance.h"
 #include "reliability.h"
 
 using namespace std;
@@ -108,9 +109,9 @@ int main() {
     read_pipes(g);
     std::cout << "Bem-vindo!" << std::endl;
 
-    FlowNetworkEvaluation(g);
-    vector<pair<City*, double>> cities = getCitiesInDeficit(g);
-    PrintResults(cities);
+    //FlowNetworkEvaluation(g);
+    //vector<pair<City*, double>> cities = getCitiesInDeficit(g);
+    //PrintResults(cities);
 
     return 0;
 }

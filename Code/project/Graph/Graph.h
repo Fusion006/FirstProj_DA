@@ -114,7 +114,6 @@ public:
 
     inline void setCapacity(double newCapacity) {
         this->capacity = newCapacity;
-
     }
 };
 

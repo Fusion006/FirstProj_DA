@@ -31,12 +31,10 @@ void FlowNetworkEvaluation(Graph& graph) {
 
 vector<pair<City*, double>> getCitiesInDeficit(Graph& graph) {
     vector<pair<City*, double>> res;
-    double totalFlow = 0;
     for (City* city : graph.getCities()) {
         double totalDelivered = 0;
         for (Pipe* pipe : city->getIncoming()) {
             totalDelivered += pipe->getFlow();
-            totalFlow += pipe->getFlow();
         }
         if (totalDelivered < city->get_demand()) {
             pair<City*, double> pair1 = make_pair(city, city->get_demand() - totalDelivered);
