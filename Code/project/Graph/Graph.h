@@ -13,6 +13,10 @@ using namespace std;
 class Pipe;
 
 /************************* Vertex  **************************/
+/**
+ * @class Graph Vertex
+ * @brief Generic function that represents a Graphs Vertex
+ */
 class Vertex {
 public:
 
@@ -59,6 +63,10 @@ protected:
 };
 
 /********************** City  ****************************/
+/**
+ * @class City Vertex
+ * @Brief A extension of the Vertex class that represents a City it adds the name, demand and population parameters
+ */
 class City : public Vertex{
 private:
     string name;
@@ -79,6 +87,10 @@ public:
 };
 
 /********************** Reservoir  ****************************/
+/**
+ * @class Reservoir Vertex
+ * @Brief A extension of the Vertex class that represents a Reservoir it adds the name, municipality and capacity parameters
+ */
 class Reservoir : public Vertex{
 private:
     std::string name;
@@ -118,6 +130,11 @@ public:
 };
 
 /********************** Station  ****************************/
+/**
+ * @class Pumping Station Vertex
+ * @Brief A extension of the Vertex class that represents a Pumping Station
+ * This class does not add any parameters to the Vertex class yet it it useful to distinguish a Pumping Station from other Vertexes
+ */
 class Station : public Vertex{
 private:
 
@@ -136,6 +153,10 @@ public:
 };
 
 /********************** Pipe  ****************************/
+/**
+ * @class Graph Edges
+ * @Brief A representation of the Graphs edges
+ */
 class Pipe {
 public:
     Pipe(Vertex* orig, Vertex* dest, double w);
@@ -167,13 +188,13 @@ protected:
 };
 
 /********************** Graph  ****************************/
+/**
+ * @class Graph database
+ * @brief Class that represents the dataset as a graph
+ */
 class Graph {
 public:
     Graph();
-    //~Graph(); TODO adicionar se usarmos Floyd-Warshall
-    /*
-    * Auxiliary function to find a vertex with a given the content.
-    */
     [[nodiscard]] inline Vertex *findVertex(const string &code) const;
     [[nodiscard]] inline Reservoir *findReservoir(const string &code) const;
     [[nodiscard]] inline Station *findStation(const string &code) const;
@@ -210,28 +231,16 @@ public:
     void dfsVisit(Vertex *v,  std::vector<string> & res) const;
     [[nodiscard]] inline vector<string> bfs(const string& source) const;
 
-    [[nodiscard]] inline bool isDAG() const;
-    bool dfsIsDAG(Vertex *v) const;
-    [[nodiscard]] inline std::vector<string> topsort() const;
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
     vector<Reservoir*> reservoirs;
     vector<Station*> stations;
     vector<City*> cities;
 
-    //double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
-    //int **pathMatrix = nullptr;   // path matrix for Floyd-Warshall
-    //TODO descobrir se isto é preciso
-
 public:
     map<string,string> cityToCode;
 
 };
-
-//void deleteMatrix(int **m, int n);
-//void deleteMatrix(double **m, int n);
-//TODO descobrir se isto é preciso
-
 
 /************************* Vertex  **************************/
 
@@ -614,96 +623,6 @@ vector<string> Graph::bfs(const string & source) const {
     return res;
 }
 
-/****************** isDAG  ********************/
-/*
- * Performs a depth-first search in a graph (this), to determine if the graph
- * is acyclic (acyclic directed graph or DAG).
- * During the search, a cycle is found if an edge connects to a vertex
- * that is being processed in the stack of recursive calls (see theoretical classes).
- * Returns true if the graph is acyclic, and false otherwise.
- */
-
-
-bool Graph::isDAG() const {
-    for (auto v : vertexSet) {
-        v->setVisited(false);
-        v->setProcesssing(false);
-    }
-    for (auto v : vertexSet) {
-        if (! v->isVisited()) {
-            if ( ! dfsIsDAG(v) ) return false;
-        }
-    }
-    return true;
-}
-
-/**
- * Auxiliary function that visits a vertex (v) and its adjacent, recursively.
- * Returns false (not acyclic) if an edge to a vertex in the stack is found.
- */
-
-inline bool Graph::dfsIsDAG(Vertex *v) const {
-    v->setVisited(true);
-    v->setProcesssing(true);
-    for (auto e : v->getAdj()) {
-        auto w = e->getDest();
-        if (w->isProcessing()) return false;
-        if (! w->isVisited()) {
-            if (! dfsIsDAG(w)) return false;
-        }
-    }
-    v->setProcesssing(false);
-    return true;
-}
-
-/****************** toposort ********************/
-/*
- * Performs a topological sorting of the vertices of a graph (this).
- * Returns a vector with the contents of the vertices by topological order.
- * If the graph has cycles, returns an empty vector.
- * Follows the algorithm described in theoretical classes.
- */
-
-inline vector<string> Graph::topsort() const{
-    std::vector<string> res;
-
-    for (auto v : vertexSet) {
-        v->setIndegree(0);
-    }
-    for (auto v : vertexSet) {
-        for (auto e : v->getAdj()) {
-            unsigned int indegree = e->getDest()->getIndegree();
-            e->getDest()->setIndegree(indegree + 1);
-        }
-    }
-
-    std::queue<Vertex *> q;
-    for (auto v : vertexSet) {
-        if (v->getIndegree() == 0) {
-            q.push(v);
-        }
-    }
-
-    while( !q.empty() ) {
-        Vertex * v = q.front();
-        q.pop();
-        res.push_back(v->get_code());
-        for(auto e : v->getAdj()) {
-            auto w = e->getDest();
-            w->setIndegree(w->getIndegree() - 1);
-            if(w->getIndegree() == 0) {
-                q.push(w);
-            }
-        }
-    }
-
-    if ( res.size() != vertexSet.size() ) {
-        res.clear();
-        return res;
-    }
-
-    return res;
-}
 
 inline bool Graph::addVertex(int id, const string &code) {
     if(findVertex(code) != nullptr) return false;
@@ -724,29 +643,4 @@ Pipe *Graph::findPipe(const string &source, const string &target) const {
     }
     return nullptr;
 }
-/*
-inline void deleteMatrix(int **m, int n) {
-    if (m != nullptr) {
-        for (int i = 0; i < n; i++)
-            if (m[i] != nullptr)
-                delete [] m[i];
-        delete [] m;
-    }
-}
-
-inline void deleteMatrix(double **m, int n) {
-    if (m != nullptr) {
-        for (int i = 0; i < n; i++)
-            if (m[i] != nullptr)
-                delete [] m[i];
-        delete [] m;
-    }
-}
-
-
-Graph::~Graph() {
-    deleteMatrix(distMatrix, vertexSet.size());
-    deleteMatrix(pathMatrix, vertexSet.size());
-}
-*///TODO importante so se usarmos Floyd-Warshall
 #endif
