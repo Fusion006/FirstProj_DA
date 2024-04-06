@@ -7,10 +7,10 @@
 using namespace std;
 
 
-/**
- *
- * @param graph
- * @param cities
+/** Function to read and parse the graph's cities info.
+ *  Creates in the graph the vertexes that contain the information of the cities.
+ * @param graph graph that will receive the new nodes.
+ * @param cities path where it is located the file that has the info.
  */
 void read_cities (Graph &graph, string& cities)
 {
@@ -36,10 +36,10 @@ void read_cities (Graph &graph, string& cities)
         }
     }
 }
-/**
- *
- * @param graph
- * @param reservoirs
+/** Function to read and parse the graph's reservoirs info.
+ *  Creates in the graph the vertexes that contain the information of the reservoirs.
+ * @param graph graph that will receive the new nodes.
+ * @param reservoirs path where it is located the file that has the info.
  */
 void read_reservoirs (Graph &graph, string& reservoirs)
 {
@@ -63,10 +63,10 @@ void read_reservoirs (Graph &graph, string& reservoirs)
         }
     }
 }
-/**
- *
- * @param graph
- * @param stations
+/** Function to read and parse the graph's pumping stations info.
+ *  Creates in the graph the vertexes that contain the information about these stations.
+ * @param graph graph that will receive the new nodes.
+ * @param stations path where it is located the file that has the info.
  */
 void read_stations (Graph &graph, string& stations)
 {
@@ -87,10 +87,10 @@ void read_stations (Graph &graph, string& stations)
         }
     }
 }
-/**
- *
- * @param graph
- * @param pipes
+/** Function to read and parse the graph's pipeline info.
+ *  Creates in the graph the edges (pipelines) that contain the information about these pipes.
+ * @param graph graph that will receive the new nodes.
+ * @param pipes path where it is located the file that has the info.
  */
 void read_pipes(Graph &graph, string& pipes)
 {
@@ -121,9 +121,9 @@ void read_pipes(Graph &graph, string& pipes)
         }
     }
 }
-/**
- *
- * @param graph
+/** Function that takes care of the User Interface.
+ *  This function receives the user's orders and answers them according to the user's wish.
+ * @param graph graph to give as an argument to the functions that actually respond to the user tasks.
  */
 void run(Graph& graph) {
     string order;
