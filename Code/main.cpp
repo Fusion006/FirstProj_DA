@@ -181,7 +181,7 @@ int main() {
     std::cout << "Welcome!" << std::endl;
 
     while (dataSet.empty()){
-        cout << "Which Dataset do you want to use[Big/Small/Custom]:";
+        cout << "Which Dataset do you want to use[Big/Small/Custom]:" << endl;
         getline(cin >> ws, dataSet);
 
         if (dataSet == "Big"){
@@ -216,7 +216,7 @@ int main() {
             dataSet="";
         }
     }
-    
+
     read_cities(g,cityPath);
     read_stations(g,stationPath);
     read_reservoirs(g,resPath);

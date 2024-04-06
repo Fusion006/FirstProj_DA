@@ -54,7 +54,7 @@ void PrintResults(vector<pair<City*, double>>& citiesInDeficit) {
         return;
     }
 
-    cout << "The following cities (city name, city code, deficit value) are not satisfied:" << endl;
+    cout << "The following cities (city name, city code, deficit value) are not satisfied:" << endl << endl;
 
     std::sort(citiesInDeficit.begin(), citiesInDeficit.end(), sortCitiesByDeficit);
     for (auto pair : citiesInDeficit) {
