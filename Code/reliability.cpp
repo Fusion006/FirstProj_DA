@@ -36,7 +36,8 @@ void printDifferences( const vector<pair<City*, double>>& start, const vector<pa
         if (newDeficit > oldDeficit )
         {
             City* city = cityDeficit.first;
-            cout << city->get_name() << " demand not met by: " << newDeficit << "\n";
+            double demand = city->get_demand();
+            cout << "Deficit increased in " << city->get_name() << "\tOld Flow: " << demand-oldDeficit << " New Flow: " <<demand-newDeficit << "\n";
             totalDif += newDeficit-oldDeficit;
         }
     }
@@ -279,22 +280,27 @@ void remPipe(Graph& g)
     while(!finished)
     {
         pipe = getPipeInput(g);
-
+        pipesCapacities[{pipe->getOrig()->get_code(),pipe->getDest()->get_code()}] = pipe->getCapacity();
+        if (pipe->getReverse() != nullptr){
+            pipe->getReverse()->setCapacity(0);
+            pipesCapacities[{pipe->getDest()->get_code() , pipe->getOrig()->get_code()}] = pipe->getCapacity();
+        }
+        pipe->setCapacity(0);
         if (pipe->getFlow()==0){
-            cout<<"That Pipe removal doesn't affect performance\n";
+            cout<<"That Pipe removal did not affect performance\n";
+
         }else{
-            pipesCapacities[{pipe->getOrig()->get_code(),pipe->getDest()->get_code()}] = pipe->getCapacity();
-            pipe->setCapacity(0);
 
             FlowNetworkEvaluation(g);
             vector<pair<City*, double>> new_city_in_deficit = getCitiesInDeficit(g);
 
             printDifferences(previous_city_in_deficit, new_city_in_deficit);
             previous_city_in_deficit = new_city_in_deficit;
-            cout<<"Do you want to remove another pipe?[Y/n]:";
-            getline(cin >> ws, option);
-            if (option != "Y" && option != "y") finished = true;
+
         }
+        cout<<"Do you want to remove another pipe?[Y/n]:";
+        getline(cin >> ws, option);
+        if (option != "Y" && option != "y") finished = true;
     }
     restorePipes(g, pipesCapacities);
 }

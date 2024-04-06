@@ -133,7 +133,7 @@ void run(Graph& graph) {
              "'1' to see the maximum amount of water that can reach each or a specific city;" << endl <<
              "'2' to see if all the water reservoirs are able to supply enough water to all the cities in need;" << endl <<
              "'3' to try to balance the flow that goes trough the network;" << endl <<
-             "'4' to to simulate the malfunctioning of one or more Reservoirs and its consequences;" << endl <<
+             "'4' to simulate the malfunctioning of one or more Reservoirs and its consequences;" << endl <<
              "'5' to see see what would happen if one or more Pumping Stations are removed;" << endl <<
              "'6' to find out if one or more Pipelines are crucial to the good functioning of the water delivery;" << endl <<
              "'close' to exit the program." << endl;
@@ -176,27 +176,53 @@ void run(Graph& graph) {
 
 int main() {
     Graph g;
-    string filePath;
+    string dataSet;
+    string resPath,cityPath,stationPath,pipePath;
     std::cout << "Welcome!" << std::endl;
 
-    cout << "Please insert the path to the file that contains the Cities information:" << endl;  //  ../project/Graph/DataSet/Cities.csv
-    getline(cin >> ws, filePath);
-    read_cities(g, filePath);
+    while (dataSet.empty()){
+        cout << "Which Dataset do you want to use[Big/Small/Custom]:";
+        getline(cin >> ws, dataSet);
 
-    cout << "Please insert the path to the file that contains the Pumping Stations information:" << endl;  //  ../project/Graph/DataSet/Stations.csv
-    getline(cin >> ws, filePath);
-    read_stations(g, filePath);
+        if (dataSet == "Big"){
+            resPath     =   "../project/Graph/DataSet/Reservoir.csv";
+            cityPath    =   "../project/Graph/DataSet/Cities.csv";
+            stationPath =   "../project/Graph/DataSet/Stations.csv";
+            pipePath    =   "../project/Graph/DataSet/Pipes.csv";
+        }
 
-    cout << "Please insert the path to the file that contains the Reservoirs information:" << endl;  //  ../project/Graph/DataSet/Reservoir.csv
-    getline(cin >> ws, filePath);
-    read_reservoirs(g, filePath);
+        else if (dataSet == "Small"){
+            resPath     =   "../project/Graph/DataSet/Reservoirs_Madeira.csv";
+            cityPath    =   "../project/Graph/DataSet/Cities_Madeira.csv";
+            stationPath =   "../project/Graph/DataSet/Stations_Madeira.csv";
+            pipePath    =   "../project/Graph/DataSet/Pipes_Madeira.csv";
+        }
 
-    cout << "Please insert the path to the file that contains the Pipelines information:" << endl;  //  ../project/Graph/DataSet/Pipes.csv
-    getline(cin >> ws, filePath);
-    read_pipes(g, filePath);
+        else if (dataSet == "Custom") {
+            cout << "Please insert the path to the file that contains the Cities information:" << endl;  //  ../project/Graph/DataSet/Cities.csv
+            getline(cin >> ws, cityPath);
+
+            cout << "Please insert the path to the file that contains the Pumping Stations information:" << endl;  //  ../project/Graph/DataSet/Stations.csv
+            getline(cin >> ws, stationPath);
+
+            cout << "Please insert the path to the file that contains the Reservoirs information:" << endl;  //  ../project/Graph/DataSet/Reservoir.csv
+            getline(cin >> ws, resPath);
+
+            cout << "Please insert the path to the file that contains the Pipelines information:" << endl;  //  ../project/Graph/DataSet/Pipes.csv
+            getline(cin >> ws, pipePath);
+        }
+
+        else {
+            dataSet="";
+        }
+    }
+    
+    read_cities(g,cityPath);
+    read_stations(g,stationPath);
+    read_reservoirs(g,resPath);
+    read_pipes(g,pipePath);
 
     run(g);
-
 
     return 0;
 }
