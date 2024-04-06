@@ -179,19 +179,19 @@ int main() {
     string filePath;
     std::cout << "Welcome!" << std::endl;
 
-    cout << "Please insert the path to the file that contains the Cities information:";  //  ../project/Graph/DataSet/Cities.csv
+    cout << "Please insert the path to the file that contains the Cities information:" << endl;  //  ../project/Graph/DataSet/Cities.csv
     getline(cin >> ws, filePath);
     read_cities(g, filePath);
 
-    cout << "Please insert the path to the file that contains the Pumping Stations information:";  //  ../project/Graph/DataSet/Stations.csv
+    cout << "Please insert the path to the file that contains the Pumping Stations information:" << endl;  //  ../project/Graph/DataSet/Stations.csv
     getline(cin >> ws, filePath);
     read_stations(g, filePath);
 
-    cout << "Please insert the path to the file that contains the Reservoirs information:";  //  ../project/Graph/DataSet/Reservoir.csv
+    cout << "Please insert the path to the file that contains the Reservoirs information:" << endl;  //  ../project/Graph/DataSet/Reservoir.csv
     getline(cin >> ws, filePath);
     read_reservoirs(g, filePath);
 
-    cout << "Please insert the path to the file that contains the Pipelines information:";  //  ../project/Graph/DataSet/Pipes.csv
+    cout << "Please insert the path to the file that contains the Pipelines information:" << endl;  //  ../project/Graph/DataSet/Pipes.csv
     getline(cin >> ws, filePath);
     read_pipes(g, filePath);
 

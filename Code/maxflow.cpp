@@ -48,7 +48,7 @@ void edmondsKarp(Graph &g, string &source, string &target) {
     Graph g1;
     for(Vertex* vt : g.getVertexSet()) g1.addVertex(vt->get_id(), vt->get_code());
     for(Vertex* vt : g.getVertexSet()){
-        for(Pipe* pp : vt->getAdj()) g1.addPipe(pp->getOrig()->get_code(), pp->getDest()->get_code(), pp->getCapacity());
+        for(Pipe* pp : vt->getAdj()) if (g1.addPipe(pp->getOrig()->get_code(), pp->getDest()->get_code(), pp->getCapacity())) continue;
     }
     for(Vertex* vt : g1.getVertexSet()){
         for(Pipe* pp : vt->getAdj()){
