@@ -36,4 +36,5 @@ add_executable(DAP1 main.cpp
         maxflow.cpp
         rebalance.h
         rebalance.cpp
+        optimalflow.cpp
 )

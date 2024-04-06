@@ -3,6 +3,7 @@
 #include "FlowNetwork.h"
 #include "rebalance.h"
 #include "reliability.h"
+#include "optimalflow.h"
 
 using namespace std;
 
@@ -145,7 +146,7 @@ void run(Graph& graph) {
         }
 
         else if (order == "1") {
-            //TODO
+            Opt_Flow(graph);
         }
 
         else if (order == "2") {

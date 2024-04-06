@@ -4,6 +4,8 @@
 #include "project/Graph/Graph.h"
 #include <iostream>
 #include <string>
+#include <utility>
+#include <algorithm>
 
 /** Computes the maxflow that can go from a source node and reach a sink node.
  *  Applies the Edmonds-Karp algorithm to compute the flow of each edge alon the way.
@@ -25,5 +27,6 @@ void edmondsKarp(Graph &g, string &source, string &target);
  * @return true if the function finds a path from source to target.
  */
 bool shortestPath(Graph &g, string &source, string &target, vector<string> *v); //this function uses BFS algorithm
+
 
 #endif //DAP1_MAXFLOW_H
