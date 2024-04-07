@@ -14,7 +14,7 @@ class Pipe;
 
 /************************* Vertex  **************************/
 /**
- * @class Graph Vertex
+ * @class Vertex
  * @brief Generic function that represents a Graphs Vertex
  */
 class Vertex {
@@ -64,7 +64,7 @@ protected:
 
 /********************** City  ****************************/
 /**
- * @class City Vertex
+ * @class City
  * @Brief A extension of the Vertex class that represents a City it adds the name, demand and population parameters
  */
 class City : public Vertex{
@@ -88,7 +88,7 @@ public:
 
 /********************** Reservoir  ****************************/
 /**
- * @class Reservoir Vertex
+ * @class Reservoir
  * @Brief A extension of the Vertex class that represents a Reservoir it adds the name, municipality and capacity parameters
  */
 class Reservoir : public Vertex{
@@ -131,7 +131,7 @@ public:
 
 /********************** Station  ****************************/
 /**
- * @class Pumping Station Vertex
+ * @class Station
  * @Brief A extension of the Vertex class that represents a Pumping Station
  * This class does not add any parameters to the Vertex class yet it it useful to distinguish a Pumping Station from other Vertexes
  */
@@ -154,8 +154,8 @@ public:
 
 /********************** Pipe  ****************************/
 /**
- * @class Graph Edges
- * @Brief A representation of the Graphs edges
+ * @class Pipe
+ * @Brief A representation of the Graphs edges, in this case, they represent pipelines to move the water across the network
  */
 class Pipe {
 public:
@@ -189,7 +189,7 @@ protected:
 
 /********************** Graph  ****************************/
 /**
- * @class Graph database
+ * @class Graph
  * @brief Class that represents the dataset as a graph
  */
 class Graph {
@@ -242,7 +242,7 @@ public:
 
 };
 
-/************************* Vertex  **************************/
+/* Vertex */
 
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
@@ -356,7 +356,7 @@ inline void Vertex::deletePipe(Pipe* edge) {
     delete edge;
 }
 
-/********************** Pipe  ****************************/
+/* Pipe */
 inline Pipe::Pipe(Vertex *orig, Vertex *dest, double w): orig(orig), dest(dest), capacity(w) {}
 Vertex * Pipe::getDest() const {
     return this->dest;
@@ -390,7 +390,7 @@ inline void Pipe::setCapacity(double newCapacity) {
     this->capacity = newCapacity;
 }
 
-/********************** Graph  ****************************/
+/* Graph */
 
 
 size_t Graph::getNumVertex() const {
@@ -530,7 +530,7 @@ inline bool Graph::addBidirectionalPipe(const std::string &sourceCode, const std
     return true;
 }
 
-/****************** DFS ********************/
+/* DFS */
 
 /*
  * Performs a depth-first search (dfs) traversal in a graph (this).
@@ -584,7 +584,7 @@ inline void Graph::dfsVisit(Vertex *v, vector<string> & res) const {
     }
 }
 
-/****************** BFS ********************/
+/* BFS */
 /*
  * Performs a breadth-first search (bfs) in a graph (this), starting
  * from the vertex with the given source contents (source).
