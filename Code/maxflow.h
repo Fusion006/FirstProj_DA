@@ -4,8 +4,6 @@
 #include "project/Graph/Graph.h"
 #include <iostream>
 #include <string>
-#include <utility>
-#include <algorithm>
 
 /** Computes the maxflow that can go from a source node and reach a sink node.
  *  Applies the Edmonds-Karp algorithm to compute the flow of each edge alon the way.

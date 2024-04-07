@@ -3,37 +3,29 @@
 
 #include "project/Graph/Graph.h"
 #include "maxflow.h"
+#include "FlowNetwork.h"
 #include <iostream>
 #include <string>
 #include <utility>
 #include <algorithm>
 
-/** Creates a super source connected to all sources of original and a super sink connected to all the sinks od original.
- *  Adds two Vertexes, one with code "SuperC" (the super sink) and other with code "SuperR" (the super source).
- *  The super source is connected to all sources (reservoirs), creating a pipe that originates at the super source and ends at the respective source (reservoir), and with a capacity equal to the capacity of the respective source (reservoir) of the destination.
- *  The super sink is connected to all the sinks (cities), creating a pipe that originates in the respective sink (city) and ends in the super sink, and with a capacity equal to the demand of the respective sink (city) of the destination.
- * Time complexity: O(V).
- * @param original Graph that contains the original network information given by the user.
- */
-void CreateSuperSourceSink1(Graph& original);
 
-/** Safely deletes the super source and super sink from the Graph.
- *  Removes the super vertexes without touching the original Pipes and Vertexes from the Graph.
- *  Time complexity: O(V).
- * @param graph Graph that contains the network information given by the user.
- */
-void DestroySuperSourceSink1(Graph& graph);
-
-/** Calculates the sum of all the flows of the original network or calculates the flow from a city given by the user, depending on the selected option.
- *  Time complexity: O(V^2 + E).
+/** Calculates the the maximum flow that can reach a specific city or all of the cities, according to the user order.
+ *  Time complexity: O((V * E^2) + V + E).
  * @param graph Graph that contains the network information given by the user.
  */
 void Opt_Flow(Graph& graph);
-
-/** Prints the result of the optimal flow calculation.
- *  Time complexity: O(V).
- * @param vec Vector that contains the result of the optimal flow calculation.
+/** Shows the user the maximum flow that can reach each city.
+ *  Prints the cities by the city name, code and flow value, by descending order of water flow, or, in some cases, by ascending order of the code.
+ *  Time complexity: O(Vlog(V) + V).
+ * @param vec Vector of pairs with a pointer to a City, and the value of max flow.
  */
 void Opt_printResult(vector<pair<City*, double>>& vec);
+/** Gets the value of the maximum flow that can reach a specific city.
+ * Time complexity: O(E).
+ * @param city City pointer to get the max flow from.
+ * @return the value of the maximum flow.
+ */
+double getTotalFlow(City* city);
 
 #endif //DAP1_OPTIMALFLOW_H
