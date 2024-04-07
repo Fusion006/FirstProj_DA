@@ -1,6 +1,11 @@
 #ifndef DAP1_MAXFLOW_H
 #define DAP1_MAXFLOW_H
 
+/** @defgroup maxflow maxflow
+ * @{
+ *
+ * Functions used to compute the max flow of a pipeline network
+ */
 #include "project/Graph/Graph.h"
 #include <iostream>
 #include <string>

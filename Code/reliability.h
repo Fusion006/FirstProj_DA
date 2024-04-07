@@ -4,7 +4,7 @@
 /** @defgroup reliability reliability
  * @{
  *
- * Function used to evaluate systems resilience to vertex/edge failure
+ * Functions used to evaluate systems resilience to vertex/edge failure
  */
 #include "project/Graph/Graph.h"
 #include <iostream>

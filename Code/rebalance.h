@@ -1,6 +1,11 @@
 #ifndef DAP1_REBALANCE_H
 #define DAP1_REBALANCE_H
 
+/** @defgroup rebalance rebalance
+ * @{
+ *
+ * Functions used to balance the flow across the network
+ */
 #include "project/Graph/Graph.h"
 #include "FlowNetwork.h"
 #include <algorithm>

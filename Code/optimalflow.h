@@ -1,6 +1,11 @@
 #ifndef DAP1_OPTIMALFLOW_H
 #define DAP1_OPTIMALFLOW_H
 
+/** @defgroup optimalflow optimalflow
+ * @{
+ *
+ * Functions used to check what is the actual flow that reaches each city
+ */
 #include "project/Graph/Graph.h"
 #include "maxflow.h"
 #include "FlowNetwork.h"

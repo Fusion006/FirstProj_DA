@@ -1,6 +1,12 @@
 #ifndef DAP1_FLOWNETWORK_H
 #define DAP1_FLOWNETWORK_H
 
+
+/** @defgroup FlowNetwork FlowNetwork
+ * @{
+ *
+ * Functions used to check the capacity to distribute water to the cities
+ */
 #include "project/Graph/Graph.h"
 #include "maxflow.h"
 #include <utility>
